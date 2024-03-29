@@ -384,6 +384,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var _a, _b, _c, _d, _e, _f;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ProductController = void 0;
@@ -411,9 +414,9 @@ let ProductController = class ProductController {
             return new globalClass_1.ResponseData(null, globalEnum_1.HttpStatus.ERROR, globalEnum_1.HttpMessage.ERROR);
         }
     }
-    detailProduct() {
+    detailProduct(id) {
         try {
-            return new globalClass_1.ResponseData(this.productService.detailProduct(), globalEnum_1.HttpStatus.SUCCESS, globalEnum_1.HttpMessage.SUCCESS);
+            return new globalClass_1.ResponseData(this.productService.detailProduct(id), globalEnum_1.HttpStatus.SUCCESS, globalEnum_1.HttpMessage.SUCCESS);
         }
         catch (error) {
             return new globalClass_1.ResponseData(null, globalEnum_1.HttpStatus.ERROR, globalEnum_1.HttpMessage.ERROR);
@@ -451,8 +454,9 @@ __decorate([
 ], ProductController.prototype, "createProduct", null);
 __decorate([
     (0, common_1.Get)('/:id'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", typeof (_d = typeof globalClass_1.ResponseData !== "undefined" && globalClass_1.ResponseData) === "function" ? _d : Object)
 ], ProductController.prototype, "detailProduct", null);
 __decorate([
@@ -490,14 +494,22 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ProductService = void 0;
 const common_1 = __webpack_require__(6);
 let ProductService = class ProductService {
+    constructor() {
+        this.products = [
+            { id: 1, category: 1, productName: 'Product 1', price: 1000 },
+            { id: 2, category: 2, productName: 'Product 2', price: 2000 },
+            { id: 3, category: 3, productName: 'Product 3', price: 3000 },
+            { id: 4, category: 4, productName: 'Product 4', price: 4000 },
+        ];
+    }
     getProducts() {
-        return 'GET LIST PRODUCTS';
+        return this.products;
     }
     createProduct() {
         return 'POST PRODUCT';
     }
-    detailProduct() {
-        return 'DETAIL PRODUCT';
+    detailProduct(id) {
+        return this.products.find(item => item.id === Number(id));
     }
     updateProduct() {
         return 'UPDATE PRODUCT';
@@ -614,7 +626,7 @@ var HttpMessage;
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("4da415feffb4b3abe28f")
+/******/ 		__webpack_require__.h = () => ("5c470aa3031e99794e00")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
